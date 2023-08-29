@@ -1,3 +1,4 @@
+const e = require("express");
 const Contact = require("../../models/contact/contact_models");
 exports.insertData = async (req, res, next) => {
   try {
@@ -64,5 +65,7 @@ exports.deleteDatabyId = async (req, res) => {
       await data.deleteOne({ _id: id });
       res.status(200).json({ message: "ລົບຂໍ້ມູນສຳເລັດແລ້ວ" });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
