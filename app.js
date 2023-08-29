@@ -2,6 +2,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require("cors")
+const corsOption = {
+    origin: "*", // ["http://x.com", "http://b.com"]
+    optionsSuccessStatus: 200
+}
 
 //connect DB
 const connectDB = require('./config/connectDB')
@@ -18,6 +23,7 @@ const contactRouter = require('./src/routes/contect/contact_route')
 
 const app = express();
 connectDB()
+app.use(cors(corsOption))
 
 app.use(logger('dev'));
 app.use(express.json());
