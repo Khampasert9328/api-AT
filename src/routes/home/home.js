@@ -2,13 +2,14 @@ const express = require("express");
 const router = express.Router();
 const homecontroller = require("../../controllers/home/home_controller");
 const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./images/home");
   },
   filename: function (req, file, cb) {
-    cb(null, new Date().toISOString() + file.originalname);
+    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   },
 });
 

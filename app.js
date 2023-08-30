@@ -26,6 +26,7 @@ connectDB()
 app.use(cors(corsOption))
 
 app.use(logger('dev'));
+app.use('/images',express.static('images'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

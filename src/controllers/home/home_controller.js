@@ -5,7 +5,7 @@ exports.insertData = async (req, res, next) => {
     console.log(req.files)
     const data = new HomeModels({
       name: name,
-      logo: req.files.logo[0].path,
+      logo:req.files.logo[0].path,
       image: req.files.image[0].path,
     });
     
