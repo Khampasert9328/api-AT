@@ -22,17 +22,28 @@ exports.insertData = async (req, res, next) => {
 
 exports.getData = async (req, res) => {
   try {
-    const data = await Service.find();
-
-    if (!data) {
-      res.status(404).json({ error: "ບໍ່ມີຂໍ້ມູນ" });
+    let translation = req.query.language;
+    console.log(typeof translation)
+      if (translation=="en") {
+        await Service.find().then((data) => {
+         if (!data) {
+          res.status(400).json({ error: "ບໍ່ມີຂໍ້ມູນ"})
+         }
+         res.status(200).json({
+          data:data
+         })
+        })
+       
+      }else if(translation=="lo"){
+      
+        res.status(200).json({
+          data:req.t("my name is archineer")
+         })
+      
+      }
+    } catch (error) {
+      console.log(error);
     }
-    res.status(200).json({
-      data: data,
-    });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 exports.getDataById = async (req, res) => {

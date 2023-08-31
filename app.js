@@ -3,6 +3,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require("cors")
+const i18next = require('i18next')
+const Backend = require('i18next-fs-backend')
+const middleware = require('i18next-http-middleware')
 const corsOption = {
     origin: "*", // ["http://x.com", "http://b.com"]
     optionsSuccessStatus: 200
@@ -10,6 +13,15 @@ const corsOption = {
 
 //connect DB
 const connectDB = require('./config/connectDB')
+
+
+i18next.use(Backend).use(middleware.LanguageDetector).init({
+    fallbackLng: 'en',
+    backend:{
+        loadPath: './locales/{{lng}}/translation.json'
+    }
+})
+
 
 const indexRouter = require('./src/routes/index');
 const usersRouter = require('./src/routes/users');
@@ -24,7 +36,7 @@ const contactRouter = require('./src/routes/contect/contact_route')
 const app = express();
 connectDB()
 app.use(cors(corsOption))
-
+app.use(middleware.handle(i18next))
 app.use(logger('dev'));
 app.use('/images',express.static('images'))
 app.use(express.json());

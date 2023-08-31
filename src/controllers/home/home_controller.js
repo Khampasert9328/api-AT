@@ -14,7 +14,7 @@ exports.insertData = async (req, res, next) => {
     }
     await data.save();
     res.status(201).json({
-      message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
+      message: req.t('create is succes'),
       data: data,
     });
   } catch (error) {
@@ -24,14 +24,25 @@ exports.insertData = async (req, res, next) => {
 
 exports.getData = async (req, res) => {
   try {
-    const data = await HomeModels.find();
-
-    if (!data) {
-      res.status(404).json({ error: "ບໍ່ມີຂໍ້ມູນ" });
+  let translation = req.query.language;
+  console.log(typeof translation)
+    if (translation=="en") {
+      await HomeModels.find().then((data) => {
+       if (!data) {
+        res.status(400).json({ error: "ບໍ່ມີຂໍ້ມູນ"})
+       }
+       res.status(200).json({
+        data:data
+       })
+      })
+     
+    }else if(translation=="lo"){
+    
+      res.status(200).json({
+        data:req.t("my name is archineer")
+       })
+    
     }
-    res.status(200).json({
-      data: data,
-    });
   } catch (error) {
     console.log(error);
   }

@@ -3,14 +3,15 @@ const mongoose = require("mongoose");
 const SchemaAbout = mongoose.Schema;
 const About = new SchemaAbout(
   {
-    logo: {
-      type: String,
-    },
     title: {
       type: String,
       require: true,
       trim: true,
     },
+    logo: {
+      type: String,
+    },
+    
   },
   {
     timestamps: true,
