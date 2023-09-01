@@ -1,19 +1,34 @@
 const About = require("../../models/about/about");
 exports.insertData = async (req, res, next) => {
   try {
-    const { title } = req.body;
-    const data = new About({
-      title: title,
-      logo: req.file.path,
-    });
-    if (!data) {
-      res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+    const {title_en, title_lo} = req.body
+    let language = req.query.language;
+    if (language == "en") {
+      const data = new About({
+        title_en: title_en,
+        logo_en: req.files.logo_en[0].path,
+      });
+      if (!data) {
+        res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+      }
+      //console.log(data);
+      await data.save();
+      res.status(201).json({
+        data: data,
+      });
+    } else if (language == "lo") {
+      const data = new About({
+        title_lo: title_lo,
+        logo_lo: req.files.logo_lo[0].path,
+      });
+      if (!data) {
+        res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+      }
+      await data.save();
+      res.status(201).json({
+        data: data,
+      });
     }
-    await data.save();
-    res.status(201).json({
-      message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
-      data: data,
-    });
   } catch (error) {
     console.log(error);
   }
@@ -21,14 +36,27 @@ exports.insertData = async (req, res, next) => {
 
 exports.getData = async (req, res) => {
   try {
-    const data = await About.find();
-
-    if (!data) {
-      res.status(404).json({ error: "ບໍ່ມີຂໍ້ມູນ" });
+    let translation = req.query.language;
+    console.log(typeof translation);
+    if (translation == "en") {
+      await About.find()
+        .sort({ createdAt: -1 })
+        .select("title_en logo_en ")
+        .then((docs) => {
+          res.status(200).json({
+            data: docs,
+          });
+        });
+    } else if (translation == "lo") {
+      await About.find()
+        .sort({ createdAt: -1 })
+        .select("title_lo logo_lo")
+        .then((docs) => {
+          res.status(200).json({
+            data: docs,
+          });
+        });
     }
-    res.status(200).json({
-      data: data,
-    });
   } catch (error) {
     console.log(error);
   }

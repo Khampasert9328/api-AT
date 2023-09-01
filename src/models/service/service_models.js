@@ -3,15 +3,28 @@ const mongoose = require("mongoose");
 const SchemaService = mongoose.Schema;
 const Service = new SchemaService(
   {
-    name: {
+    name_en: {
       type: String,
       require: true,
       trim: true,
     },
-    logo: {
+    logo_en: {
       type: String,
     },
-    title: {
+    title_en: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    name_lo: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    logo_lo: {
+      type: String,
+    },
+    title_lo: {
       type: String,
       require: true,
       trim: true,

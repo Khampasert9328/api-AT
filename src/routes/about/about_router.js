@@ -26,7 +26,7 @@ const upload = multer({
   limits: { fieldNameSize: 1024 * 1024 * 5 },fileFilter:fileFilter
 });
 /* POST */
-router.post("/insertabout",upload.single('logo'), aboutcontroller.insertData);
+router.post("/insertabout",upload.fields([{name: "logo_en"},{name: "logo_lo"}]), aboutcontroller.insertData);
 
 
 /* GET */

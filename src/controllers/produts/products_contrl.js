@@ -1,20 +1,38 @@
 const Products = require("../../models/products/products_models");
 exports.insertData = async (req, res, next) => {
   try {
-    const { name, title } = req.body;
-    const data = new Products({
-      name: name,
-      logo: req.file.path,
-      title: title,
-    });
-    if (!data) {
-      res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+    const { name_en, title_en, name_lo, title_lo } = req.body;
+    let language = req.query.language
+    if (language=='en') {
+      const data = new Products({
+        name_en: name_en,
+        logo_en: req.files.logo_en[0].path,
+        title_en: title_en,
+      });
+      if (!data) {
+        res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+      }
+      await data.save();
+      res.status(201).json({
+        message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
+        data: data,
+      });
+    }else if(language=='lo'){
+      const data = new Products({
+        name_lo: name_lo,
+        logo_lo: req.files.logo_lo[0].path,
+        title_lo: title_lo,
+      });
+      if (!data) {
+        res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+      }
+      await data.save();
+      res.status(201).json({
+        message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
+        data: data,
+      });
+
     }
-    await data.save();
-    res.status(201).json({
-      message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
-      data: data,
-    });
   } catch (error) {
     console.log(error);
   }
@@ -22,14 +40,27 @@ exports.insertData = async (req, res, next) => {
 
 exports.getData = async (req, res) => {
   try {
-    const data = await Products.find();
-
-    if (!data) {
-      res.status(404).json({ error: "ບໍ່ມີຂໍ້ມູນ" });
+    let translation = req.query.language;
+  console.log(translation);
+    if (translation == "en") {
+      await Products.find()
+        .sort({ createdAt: -1 })
+        .select("name_en title_en logo_en ")
+        .then((docs) => {
+          res.status(200).json({
+            data: docs,
+          });
+        });
+    } else if (translation == "lo") {
+      await Products.find()
+        .sort({ createdAt: -1 })
+        .select("name_lo title_lo logo_lo")
+        .then((docs) => {
+          res.status(200).json({
+            data: docs,
+          });
+        });
     }
-    res.status(200).json({
-      data: data,
-    });
   } catch (error) {
     console.log(error);
   }

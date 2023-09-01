@@ -1,15 +1,16 @@
-const e = require("express");
+
 const Contact = require("../../models/contact/contact_models");
 exports.insertData = async (req, res, next) => {
   try {
-    const { tell, email, facebook, location } = req.body;
-    console.log(req);
+    const { tell_en, email_en, facebook_en, location_en, tell_lo, email_lo, facebook_lo, location_lo} = req.body;
+   let language = req.query.language
+   if (language=='en') {
     const data = new Contact({
-      tell: tell,
-      email: email,
-      facebook: facebook,
-      location: location,
-      logo: req.file.path,
+      tell_en: tell_en,
+      email_en: email_en,
+      facebook_en: facebook_en,
+      location_en: location_en,
+      logo_en: req.files.logo_en[0].path,
     });
 
     if (!data) {
@@ -20,6 +21,26 @@ exports.insertData = async (req, res, next) => {
       message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
       data: data,
     });
+   }else if(language=='lo'){
+    const data = new Contact({
+      tell_lo: tell_lo,
+      email_lo: email_lo,
+      facebook_lo: facebook_lo,
+      location_lo: location_lo,
+      logo_lo: req.files.logo_lo[0].path,
+    });
+
+    if (!data) {
+      res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+    }
+    await data.save();
+    res.status(201).json({
+      message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
+      data: data,
+    });
+
+   }
+    
   } catch (error) {
     console.log(error);
   }
@@ -27,14 +48,27 @@ exports.insertData = async (req, res, next) => {
 
 exports.getData = async (req, res) => {
   try {
-    const data = await Contact.find();
-
-    if (!data) {
-      res.status(404).json({ error: "ບໍ່ມີຂໍ້ມູນ" });
-    }
-    res.status(200).json({
-      data: data,
-    });
+    let translation = req.query.language;
+    console.log(translation);
+      if (translation == "en") {
+        await Contact.find()
+          .sort({ createdAt: -1 })
+          .select("tell_en email_en facebook_en location_en ")
+          .then((docs) => {
+            res.status(200).json({
+              data: docs,
+            });
+          });
+      } else if (translation == "lo") {
+        await Contact.find()
+          .sort({ createdAt: -1 })
+          .select("tell_lo email_lo facebook_lo location_lo")
+          .then((docs) => {
+            res.status(200).json({
+              data: docs,
+            });
+          });
+      }
   } catch (error) {
     console.log(error);
   }

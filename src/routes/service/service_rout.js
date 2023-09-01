@@ -25,7 +25,7 @@ const upload = multer({
   limits: { fieldNameSize: 1024 * 1024 * 5 },fileFilter:fileFilter
 });
 /* POST */
-router.post("/insertsevice",upload.single('logo'), servicecontroller.insertData);
+router.post("/insertsevice",upload.fields([{name: "logo_en"},{name: "logo_lo"}]), servicecontroller.insertData);
 
 
 /* GET */

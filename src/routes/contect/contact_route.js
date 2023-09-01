@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     cb(null, "./images/contact");
   },
   filename: function (req, file, cb) {
-    cb(`${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+    cb(null, new Date().toISOString()+file.originalname);
   },
 });
 
@@ -25,7 +25,7 @@ const upload = multer({
   limits: { fieldNameSize: 1024 * 1024 * 5 },fileFilter:fileFilter
 });
 /* POST */
-router.post("/insertcontact",upload.single('logo'), contactcontroller.insertData);
+router.post("/insertcontact",upload.fields([{name: "logo_en"},{name: "logo_lo"}]), contactcontroller.insertData);
 
 
 /* GET */

@@ -3,27 +3,51 @@ const mongoose = require("mongoose");
 const SchemaContact = mongoose.Schema;
 const Contact = new SchemaContact(
   {
-    tell: {
+    tell_en: {
       type: String,
       require: true,
       trim: true,
     },
-    email: {
+    email_en: {
       type: String,
       require: true,
       trim: true,
     },
-    facebook: {
+    facebook_en: {
       type: String,
       require: true,
       trim: true,
     },
-    location: {
+    location_en: {
       type: String,
       require: true,
       trim: true,
     },
-    logo: {
+    logo_en: {
+      type: String,
+    },
+
+    tell_lo: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    email_lo: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    facebook_lo: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    location_lo: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    logo_lo: {
       type: String,
     },
   },

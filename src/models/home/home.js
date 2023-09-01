@@ -3,15 +3,24 @@ const mongoose = require("mongoose");
 const Schemahome = mongoose.Schema;
 const Home = new Schemahome(
   {
-    name: {
+    name_en: {
       type: String,
-      require: true,
       trim: true,
     },
-    logo: {
+    logo_en: {
       type: String,
     },
-    image: {
+    image_en: {
+      type: String,
+    },
+    name_lo: {
+      type: String,
+      trim: true,
+    },
+    logo_lo: {
+      type: String,
+    },
+    image_lo: {
       type: String,
     },
   },
