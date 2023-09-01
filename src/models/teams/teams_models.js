@@ -3,22 +3,42 @@ const mongoose = require("mongoose");
 const SchemaTeams = mongoose.Schema;
 const Teams = new SchemaTeams(
   {
-    name: {
+    name_en: {
       type: String,
       require: true,
       trim: true,
     },
-    surname: {
+    surname_en: {
         type: String,
         require: true,
         trim: true,
     },
-    position: {
+    position_en: {
       type: String,
       require: true,
       trim: true,
     },
-    logo:{
+    logo_en:{
+        type: String,
+    },
+
+
+    name_lo: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    surname_lo: {
+        type: String,
+        require: true,
+        trim: true,
+    },
+    position_lo: {
+      type: String,
+      require: true,
+      trim: true,
+    },
+    logo_lo:{
         type: String,
     }
   },

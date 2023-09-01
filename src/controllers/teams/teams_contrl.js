@@ -1,21 +1,40 @@
 const TeamsModels = require("../../models/teams/teams_models");
 exports.insertData = async (req, res, next) => {
   try {
-    const { name, surname, position } = req.body;
-    const data = new TeamsModels({
-      name: name,
-      surname:surname,
-      position: position,
-      logo: req.file.path,
-    });
-    if (!data) {
-      res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+    const { name_en, surname_en, position_en, name_lo, surname_lo, position_lo} = req.body;
+    let language = req.query.language
+    if (language=='en') {
+      const data = new Service({
+        name_en: name_en,
+        surname_en:surname_en,
+        position_en: position_en,
+        logo_en: req.files.logo_en[0].path,
+      });
+      if (!data) {
+        res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+      }
+      await data.save();
+      res.status(201).json({
+        message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
+        data: data,
+      });
+    }else if(language=='lo'){
+      const data = new Service({
+        name_lo: name_lo,
+        surname_lo:surname_lo,
+        position_lo:position_lo,
+        logo_lo: req.files.logo_lo[0].path,
+      });
+      if (!data) {
+        res.status(404).json({ error: "ລອງໃໝ່ອີກຄັ້ງ" });
+      }
+      await data.save();
+      res.status(201).json({
+        message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
+        data: data,
+      });
+
     }
-    await data.save();
-    res.status(201).json({
-      message: "ບັນທືກຂໍ້ມູນສຳເລັດ",
-      data: data,
-    });
   } catch (error) {
     console.log(error);
   }
