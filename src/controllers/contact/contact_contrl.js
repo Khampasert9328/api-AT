@@ -53,7 +53,7 @@ exports.getData = async (req, res) => {
       if (translation == "en") {
         await Contact.find()
           .sort({ createdAt: -1 })
-          .select("tell_en email_en facebook_en location_en ")
+          .select("tell_en email_en facebook_en location_en logo_en")
           .then((docs) => {
             res.status(200).json({
               data: docs,
