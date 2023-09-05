@@ -29,6 +29,7 @@ const Products = new SchemaProducts(
       require: true,
       trim: true,
     },
+    
   },
   {
     timestamps: true,
