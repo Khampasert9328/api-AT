@@ -89,3 +89,30 @@ exports.deleteDatabyId = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.updateTeams = async (req, res) => {
+  try {
+    const { position_en } = req.body;
+    const { id } = req.params;
+    console.log("id", id);
+    console.log("position_en", position_en);
+    const teams = await TeamsModels.findById(id);
+    if (!teams) {
+      res.status(404).json({ error: "ບໍ່ມີໄອດີນີ້ໃນລະບົບ" });
+    } else {
+      await TeamsModels.findByIdAndUpdate(
+        { _id: id },
+        {
+          position_en: "UI DESIGNER",
+        }
+      );
+
+      //await data.save();
+      res.status(200).json({
+        message: "ອັບເດດສຳເລັດ",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

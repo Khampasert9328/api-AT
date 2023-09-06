@@ -6,6 +6,7 @@ const cors = require("cors")
 const i18next = require('i18next')
 const Backend = require('i18next-fs-backend')
 const middleware = require('i18next-http-middleware')
+const bodyParser = require('body-parser')
 const corsOption = {
     origin: "*", // ["http://x.com", "http://b.com"]
     optionsSuccessStatus: 200
@@ -35,6 +36,8 @@ const contactRouter = require('./src/routes/contect/contact_route')
 
 const app = express();
 connectDB()
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors(corsOption))
 app.use(middleware.handle(i18next))
 app.use(logger('dev'));

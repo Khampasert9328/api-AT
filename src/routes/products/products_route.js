@@ -33,7 +33,6 @@ router.post("/insertproducts",upload.fields([{name: "logo_en"},{name: "logo_lo"}
 router.get('/getproducts', productscontroller.getData)
 router.get('/getproductsbyid/:id', productscontroller.getDataById)
 /* DELETE */
-router.delete('/deleteproducts/:id', productscontroller.deleteDatabyId)
-
+//router.delete('/deleteproducts/:id', productscontroller.deleteDatabyId)
 
 module.exports = router;
