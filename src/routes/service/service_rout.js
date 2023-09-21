@@ -33,6 +33,7 @@ router.get('/getsevice', servicecontroller.getData)
 router.get('/getsevicebyid/:id', servicecontroller.getDataById)
 /* DELETE */
 router.delete('/deletesevice/:id', servicecontroller.deleteDatabyId)
+router.put('/updatesevice/:id',upload.fields([{name: "logo_en"},{name: "logo_lo"}]), servicecontroller.updateService)
 
 
 module.exports = router;

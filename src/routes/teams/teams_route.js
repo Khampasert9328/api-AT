@@ -33,6 +33,6 @@ router.get('/getteams', teamscontroller.getData)
 router.get('/getteamsbyid/:id', teamscontroller.getDataById)
 /* DELETE */
 router.delete('/deleteteams/:id', teamscontroller.deleteDatabyId)
-router.put('/updateteams/:id', teamscontroller.updateTeams)
+router.put('/updateteams/:id',upload.fields([{name: "logo_en"},{name: "logo_lo"}]), teamscontroller.updateTeams)
 
 module.exports = router;

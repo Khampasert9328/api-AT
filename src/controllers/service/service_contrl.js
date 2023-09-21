@@ -97,3 +97,36 @@ exports.deleteDatabyId = async (req, res) => {
         
     }
 }
+
+exports.updateService = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name_en, title_en } = req.body;
+    const service = await Service.findById(id);
+    if (!service) {
+      res.status(404).json({ error: "ບໍ່ມີໄອດີນີ້ໃນລະບົບ" });
+    } else {
+      const data = await Service.findByIdAndUpdate(
+        { _id: id },
+        {
+          name_en: name_en,
+          title_en: title_en,
+          logo_en: req.files.logo_en[0].path,
+        },
+        {
+          new: true,
+        }
+      );
+
+      if (!data) {
+        res.status(404).json({ error: "ບໍ່ສາມາດອັບເດດໄດ້" });
+      }
+    
+      res.status(200).json({
+        data: data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

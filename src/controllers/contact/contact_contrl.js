@@ -103,3 +103,37 @@ exports.deleteDatabyId = async (req, res) => {
     console.log(error);
   }
 };
+exports.updatebyid = async(req, res, next) => {
+  try {
+    const {id} = req.params
+    const {tell_en, email_en, facebook_en, location_en,} = req.body
+    const contact =  await Contact.findById(id);
+    if (!contact) {
+      res.status(404).json({ error: "ບໍ່ມີໄອດີນີ້ໃນລະບົບ" });
+    }else{
+      const data=  await Contact.findByIdAndUpdate(
+        { _id: id },
+        {
+          tell_en: tell_en,
+          email_en: email_en,
+          facebook_en: facebook_en,
+          location_en:location_en,
+          logo_en: req.files.logo_en[0].path,
+        },{
+          new: true
+        }
+      );
+
+     if (!data) {
+      res.status(404).json({ error: "ລອງໃໝ໋ອີກຄັ້ງ" });
+     }else{
+      res.status(201).json({
+        data:data
+      })
+     }
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+}

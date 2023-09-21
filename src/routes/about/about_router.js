@@ -34,6 +34,8 @@ router.get('/getabout', aboutcontroller.getData)
 router.get('/getaboutid/:id', aboutcontroller.getDataById)
 /* DELETE */
 router.delete('/deleteabout/:id', aboutcontroller.deleteDatabyId)
+router.put('/updateabout/:id',upload.fields([{name: "logo_en"},{name: "logo_lo"}]), aboutcontroller.updateAbout)
+
 
 
 module.exports = router;

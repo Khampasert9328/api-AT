@@ -34,5 +34,7 @@ router.get('/getcontactbyid/:id', contactcontroller.getDataById)
 /* DELETE */
 router.delete('/deletecontact/:id', contactcontroller.deleteDatabyId)
 
+router.put('/updatecontact/:id',upload.fields([{name: "logo_en"},{name: "logo_lo"}]), contactcontroller.updatebyid)
+
 
 module.exports = router;

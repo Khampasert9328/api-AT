@@ -34,6 +34,7 @@ router.get('/gethome', homecontroller.getData)
 router.get('/gethomebyid/:id', homecontroller.getDataById)
 /* DELETE */
 router.delete('/deletehome/:id', homecontroller.deleteDatabyId)
+router.put('/updatehome/:id',upload.fields([{name: "logo"},{name: "image"}]), homecontroller.updateHome)
 
 
 module.exports = router;

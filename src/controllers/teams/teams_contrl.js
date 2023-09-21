@@ -92,25 +92,31 @@ exports.deleteDatabyId = async (req, res) => {
 
 exports.updateTeams = async (req, res) => {
   try {
-    const { position_en } = req.body;
     const { id } = req.params;
-    console.log("id", id);
-    console.log("position_en", position_en);
+    const { name_en, surname_en, position_en } = req.body;
     const teams = await TeamsModels.findById(id);
     if (!teams) {
       res.status(404).json({ error: "ບໍ່ມີໄອດີນີ້ໃນລະບົບ" });
     } else {
-      await TeamsModels.findByIdAndUpdate(
+    const data=  await TeamsModels.findByIdAndUpdate(
         { _id: id },
         {
-          position_en: "UI DESIGNER",
+          name_en: name_en,
+          surname_en: surname_en,
+          position_en: position_en,
+          logo_en: req.files.logo_en[0].path,
+        },{
+          new: true
         }
       );
 
-      //await data.save();
-      res.status(200).json({
-        message: "ອັບເດດສຳເລັດ",
-      });
+     if (!data) {
+      res.status(404).json({ error: "ລອງໃໝ໋ອີກຄັ້ງ" });
+     }else{
+      res.status(201).json({
+        data:data
+      })
+     }
     }
   } catch (error) {
     console.log(error);

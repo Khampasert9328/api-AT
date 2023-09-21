@@ -1,7 +1,7 @@
 const About = require("../../models/about/about");
 exports.insertData = async (req, res, next) => {
   try {
-    const {title_en, title_lo} = req.body
+    const { title_en, title_lo } = req.body;
     let language = req.query.language;
     if (language == "en") {
       const data = new About({
@@ -86,6 +86,38 @@ exports.deleteDatabyId = async (req, res) => {
     } else {
       await data.deleteOne({ _id: id });
       res.status(200).json({ message: "ລົບຂໍ້ມູນສຳເລັດແລ້ວ" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.updateAbout = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title_en } = req.body;
+    const service = await About.findById(id);
+    if (!service) {
+      res.status(404).json({ error: "ບໍ່ມີໄອດີນີ້ໃນລະບົບ" });
+    } else {
+      const data = await About.findByIdAndUpdate(
+        { _id: id },
+        {
+          title_en: title_en,
+          logo_en: req.files.logo_en[0].path,
+        },
+        {
+          new: true,
+        }
+      );
+
+      if (!data) {
+        res.status(404).json({ error: "ບໍ່ສາມາດອັບເດດໄດ້" });
+      }
+
+      res.status(200).json({
+        data: data,
+      });
     }
   } catch (error) {
     console.log(error);

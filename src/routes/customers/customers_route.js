@@ -33,6 +33,7 @@ router.get('/getcustomers', customerscontroller.getData)
 router.get('/getcustomersbyid/:id', customerscontroller.getDataById)
 /* DELETE */
 router.delete('/deletecustomers/:id', customerscontroller.deleteDatabyId)
+router.put('/updatecustomer/:id',upload.single('logo'), customerscontroller.updatebyid)
 
 
 module.exports = router;
